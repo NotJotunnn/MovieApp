@@ -15,10 +15,10 @@ const StyledText = styled.Text`
   text-align: center;
 `
 
-export default function Index() {
+export default function Profile() {
   return (
     <StyledView>
-      <StyledText>Welcome.</StyledText>
+      <StyledText>Profile.</StyledText>
     </StyledView>
   );
 }

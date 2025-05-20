@@ -15,7 +15,7 @@ const StyledText = styled.Text`
   text-align: center;
 `
 
-export default function Index() {
+export default function Saved() {
   return (
     <StyledView>
       <StyledText>Welcome.</StyledText>
