@@ -9,7 +9,7 @@ export const TMDB_CONFIG = {
 
 interface MoviesDiscover {
   page: number,
-  results: {
+  results: [{
     adult: boolean,
     backdrop_path: string,
     genre_ids: number[],
@@ -24,7 +24,7 @@ interface MoviesDiscover {
     video: boolean,
     vote_average: number,
     vote_count: number,
-  }
+  }]
   total_pages: number,
   total_results: number
 }

@@ -4,7 +4,7 @@ import { images } from "@/constants/images";
 import { fetchPopularMovies } from "@/services/api";
 import useFetch from "@/services/useFetch";
 import { useRouter } from "expo-router";
-import { Text } from "react-native";
+import { useEffect } from "react";
 import styled from "styled-components/native";
 
 const StyledView = styled.View`
@@ -75,9 +75,7 @@ const StyledTextMoviesResult = styled.Text`
   color: white;
   font-size: 14px;
 
-  width: 50px;
-
-  border: 2px solid red;
+  min-width: 50px;
 `;
 
 const StyledFlatList = styled.FlatList`
@@ -86,27 +84,27 @@ const StyledFlatList = styled.FlatList`
 `;
 
 interface MoviesResults {
-  adult: boolean,
-  backdrop_path: string,
-  genre_ids: number[],
-  id: number,
-  original_language: string,
-  original_title: string,
-  overview: string,
-  popularity: number,
-  poster_path: string,
-  release_date: string,
-  title: string,
-  video: boolean,
-  vote_average: number,
-  vote_count: number,
+  adult: boolean;
+  backdrop_path: string;
+  genre_ids: number[];
+  id: number;
+  original_language: string;
+  original_title: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  release_date: string;
+  title: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
 }
 
 export default function Index() {
   const router = useRouter();
 
   const {
-    data: movies,
+    data: movies = [],
     loading: moviesLoading,
     error: moviesError,
   } = useFetch(() => fetchPopularMovies({ query: "" }));
@@ -121,8 +119,8 @@ export default function Index() {
         {moviesLoading ? (
           <StyledActivityIndicator />
         ) : moviesError ? (
-          <Text>Error: {moviesError?.message} </Text>
-        ) : (
+          <StyledTextResult>Error: {moviesError?.message} </StyledTextResult>
+        ) : movies && (
           <StyledSearchBarView>
             <SearchBar
               onPress={() => router.push("/search")}
@@ -134,10 +132,12 @@ export default function Index() {
 
               <StyledFlatList
                 data={movies}
-                renderItem={(item) => (
+                // @ts-ignore
+                renderItem={({ item }: { item: MoviesResults }) => (
                   <StyledTextMoviesResult>{item.title}</StyledTextMoviesResult>
                 )}
-                keyExtractor={(item) => item.id.toString()}
+                // @ts-ignore
+                keyExtractor={item => item.id.toString()}
                 numColumns={3}
                 columnWrapperStyle={{
                   justifyContent: "flex-start",
